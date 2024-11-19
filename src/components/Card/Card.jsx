@@ -6,11 +6,9 @@ import { useNavigate } from 'react-router-dom';
 const CardContainer = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: left;
     justify-content : space-between;
     background-color: ${colors.primary};
     padding: 20px;
-    gap: 20px;
     border-radius: 25px;
 `
 const CardImage = styled.img`
@@ -23,8 +21,9 @@ const CardImage = styled.img`
   border-radius: 25px; 
 `;
 
-const CardTitle =styled.h2`
+const CardTitle =styled.h3`
  color: white;
+ margin: 0px;
   text-align: left; /* Aligne le texte à gauche */
   width: 50%; /* Limite la largeur à la moitié de la carte */
   word-wrap: break-word; /* Permet au texte de passer à la ligne */

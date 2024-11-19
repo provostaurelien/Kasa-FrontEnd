@@ -1,6 +1,7 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import GlobalStyle from './utils/style/GlobalStyle.jsx' 
 import Home from './pages/Home/Home.jsx'
 import APropos from './pages/A-Propos/A-Propos.jsx'
 import Logement from './pages/Fiche-Logement/Logement.jsx'
@@ -13,10 +14,13 @@ import { PropertyProvider } from './Services/PropertyContext.jsx';
 const root = createRoot(document.getElementById('root'));
 
 
+
+
 root.render(
   <React.StrictMode>
     <Router>
     <PropertyProvider>
+    <GlobalStyle />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -26,7 +30,7 @@ root.render(
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
-      </PropertyProvider>,
+      </PropertyProvider>
     </Router>
   </React.StrictMode>
 )

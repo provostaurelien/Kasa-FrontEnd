@@ -3,6 +3,7 @@ import { useParams , useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import PropertyContext from '../../Services/PropertyContext';
 import Gallery from "../../components/Gallery/Gallery.jsx";
+import Collapse from "../../components/Collapse/Collapse.jsx"
 
 
 const LogementContainer = styled.div`
@@ -31,6 +32,7 @@ const Host = styled.div`
     border-radius: 50%;
   }
 `;
+
 
 
 export default function Logement() {
@@ -67,13 +69,30 @@ export default function Logement() {
     <LogementContainer>
        <Gallery images={logement?.pictures } />
       <h1>{logement?.title }</h1>
+      <p>{logement?.location}</p>
       <Host>
       <div className="host-info">
           <p>{firstName}<br />{lastName}</p>
         </div>
       <img src={logement?.host?.picture} alt={logement?.host?.name} />
       </Host>
-      <p>{logement?.location}</p>
+      <Collapse
+      title="Description"
+      content={logement?.description || 'Aucune description disponible'}
+       /> 
+       <Collapse
+  title="Equipements"
+  content={
+    logement?.equipments?.length > 0
+      ? logement.equipments.map((item, index) => (
+          <span key={index}>
+            {item}
+            <br />
+          </span>
+        ))
+      : 'Aucun équipement disponible'
+  }
+/>
     </LogementContainer>
   );
 }

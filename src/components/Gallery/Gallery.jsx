@@ -102,6 +102,6 @@ export default function Gallery({ images }) {
 }
 
 Gallery.propTypes = {
-    images: PropTypes.string,
+    images: PropTypes.node,
   };
 

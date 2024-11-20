@@ -4,7 +4,8 @@ import styled from 'styled-components'
 import PropertyContext from '../../Services/PropertyContext';
 import Gallery from "../../components/Gallery/Gallery.jsx";
 import Collapse from "../../components/Collapse/Collapse.jsx"
-
+import Tag from "../../components/Tag/Tag.jsx"
+import Rating from "../../components/Rating/Rating.jsx"; 
 
 const LogementContainer = styled.div`
   margin: 0px 100px 50px 100px;
@@ -31,6 +32,19 @@ const Host = styled.div`
     height: 60px;
     border-radius: 50%;
   }
+`;
+
+const TagsAndRatingContainer = styled.div`
+  display: flex;
+  align-items: center;  // Aligner verticalement
+  gap: 20px;            // Espacement entre les tags et la note
+  margin-top: 20px;
+`;
+
+const TagsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 `;
 
 
@@ -76,6 +90,16 @@ export default function Logement() {
         </div>
       <img src={logement?.host?.picture} alt={logement?.host?.name} />
       </Host>
+      <TagsAndRatingContainer>
+        <TagsContainer>
+          {logement?.tags?.map((tag, index) => (
+            <Tag key={index} title={tag} />
+          ))}
+        </TagsContainer>
+
+        {/* Composant Rating avec la note */}
+        <Rating rating={logement?.rating || 0} />
+      </TagsAndRatingContainer>
       <Collapse
       title="Description"
       content={logement?.description || 'Aucune description disponible'}

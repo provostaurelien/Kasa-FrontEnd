@@ -1,7 +1,7 @@
 
 import { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { fetchProperties } from './Api.js'; 
+import { fetchProperties, fetchPropertyById } from './Api.js'; 
 
 const PropertyContext = createContext();
 
@@ -22,8 +22,16 @@ export const PropertyProvider = ({ children }) => {
       });
   }, []);
 
+  const getPropertyById = async (id) => {
+    try {
+      return await fetchPropertyById(id);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
   return (
-    <PropertyContext.Provider value={{ properties, loading, error }}>
+    <PropertyContext.Provider value={{ properties, loading, error, getPropertyById }}>
       {children}
     </PropertyContext.Provider>
   );

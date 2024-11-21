@@ -5,7 +5,7 @@ import styled from "styled-components";
 import PropTypes from 'prop-types';
 
 // Définition du style
-const GalleryContainer = styled.div`
+const SliderContainer = styled.div`
   position: relative;
   width: 100%;
   margin: 0 auto;
@@ -19,7 +19,7 @@ const ImageContainer = styled.div`
   align-items: center;
 `;
 
-const GalleryImage = styled.img`
+const SliderImage = styled.img`
   width: 100%;
   height: 400px; /* Hauteur fixe pour toutes les images */
   object-fit: cover; /* Remplit l'espace tout en respectant le ratio */
@@ -30,8 +30,6 @@ const Arrow = styled.img`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
   cursor: pointer;
   z-index: 10;
 
@@ -49,7 +47,7 @@ const Counter = styled.div`
   font-size: 14px;
 `;
 
-export default function Gallery({ images }) {
+export default function Slider({ images }) {
     //Gestion de l'index pour l'affichage de la photo 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -69,9 +67,9 @@ export default function Gallery({ images }) {
   };
 
   return (
-    <GalleryContainer>
+    <SliderContainer>
       <ImageContainer>
-        <GalleryImage
+        <SliderImage
           src={images[currentIndex]}
           alt={`Image ${currentIndex + 1}`}
         />
@@ -97,11 +95,11 @@ export default function Gallery({ images }) {
           />
         </>
       )}
-    </GalleryContainer>
+    </SliderContainer>
   );
 }
 
-Gallery.propTypes = {
+Slider.propTypes = {
     images: PropTypes.node,
   };
 

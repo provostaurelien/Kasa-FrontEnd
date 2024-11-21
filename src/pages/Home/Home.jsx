@@ -1,10 +1,11 @@
 import { useContext } from 'react';
-import Banner from '../../components/Banner/Banner.jsx'
-import Card from '../../components/Card/Card.jsx';
 import PropertyContext from '../../Services/PropertyContext';
-import bannerImage from '../../assets/BannerHeader.png';
 import styled from 'styled-components'
 import colors from '../../utils/style/colors';
+import Banner from '../../components/Banner/Banner.jsx'
+import Card from '../../components/Card/Card.jsx';
+import bannerImage from '../../assets/BannerHeader.png';
+
 
 const HomeContainer = styled.div`
   margin: 0px 100px 50px 100px;

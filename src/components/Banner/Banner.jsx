@@ -28,7 +28,7 @@ const BannerOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, ${({ title }) => title ? 0.5 : 0}); /* Applique un filtre sombre avec opacité ajustable */
+  background: rgba(0, 0, 0, ${({ title }) => title ? 0.6 : 0}); /* Applique un filtre sombre avec opacité ajustable */
   z-index: 1; /* Assure que l'overlay est sous le titre mais au-dessus de l'image */
   border-radius: 25px; 
 `;

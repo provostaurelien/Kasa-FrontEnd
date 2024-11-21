@@ -1,35 +1,33 @@
-// Rating.jsx
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import colors from '../../utils/style/colors';
+import starActive from '../../assets/star-active.png'
+import starInactive from '../../assets/star-inactive.png'
 
-// Conteneur des étoiles
 const RatingContainer = styled.div`
   display: flex;
-  gap: 5px; // Espacement entre les étoiles
+  gap: 5px; 
 `;
 
-// Composant représentant une étoile
-const Star = styled.span`
-  font-size: 20px;
-  color: ${({ filled }) => (filled ? colors.primary : '#D3D3D3')}; // Couleur primaire pour étoile remplie, gris pour étoile vide
-`;
+
 
 export default function Rating({ rating }) {
-  // On crée un tableau de 5 éléments représentant les étoiles
-  const stars = Array.from({ length: 5 }, (_, index) => index < rating); // Si l'index est inférieur à la note, l'étoile est remplie
+  // Crée un tableau de 5 éléments représentant les étoiles
+  const stars = Array.from({ length: 5 }, (_, index) => index < rating); // `true` si l'index est inférieur à la note
+
 
   return (
     <RatingContainer>
-      {stars.map((filled, index) => (
-        <Star key={index} filled={filled}>
-          &#9733; {/* Unicode pour une étoile */}
-        </Star>
-      ))}
-    </RatingContainer>
-  );
+       {stars.map((isFilled, index) => (
+       <img
+       key={index}
+       src={isFilled ? starActive : starInactive}
+       alt={isFilled ? 'Active star' : 'Inactive star'}
+     />
+   ))}
+ </RatingContainer>
+);
 }
 
 Rating.propTypes = {
-  rating: PropTypes.number.isRequired,
+  rating: PropTypes.string.isRequired,
 };

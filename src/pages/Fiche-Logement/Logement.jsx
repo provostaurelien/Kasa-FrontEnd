@@ -1,8 +1,9 @@
 import { useEffect, useState, useContext } from 'react';
 import { useParams , useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
+import colors from '../../utils/style/colors';
 import PropertyContext from '../../Services/PropertyContext';
-import Gallery from "../../components/Gallery/Gallery.jsx";
+import Slider from "../../components/Slider/Slider.jsx";
 import Collapse from "../../components/Collapse/Collapse.jsx"
 import Tag from "../../components/Tag/Tag.jsx"
 import Rating from "../../components/Rating/Rating.jsx"; 
@@ -10,7 +11,15 @@ import Rating from "../../components/Rating/Rating.jsx";
 const LogementContainer = styled.div`
   margin: 0px 100px 50px 100px;
 `
-
+const TitleLogement = styled.h1`
+font-size : 36px;
+color : ${colors.primary};
+margin : 0;
+`
+const Location = styled.p`
+font-size : 18px;
+margin : 5px
+`
 
 const Host = styled.div`
   display: flex;
@@ -25,6 +34,8 @@ const Host = styled.div`
 
   p {
     margin: 0;
+    font-size : 18px;
+    color : ${colors.primary};
   }
 
   img {
@@ -34,11 +45,23 @@ const Host = styled.div`
   }
 `;
 
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const TitleAndLocation = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const TagsAndRatingContainer = styled.div`
   display: flex;
-  align-items: center;  // Aligner verticalement
-  gap: 20px;            // Espacement entre les tags et la note
-  margin-top: 20px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
 `;
 
 const TagsContainer = styled.div`
@@ -46,6 +69,19 @@ const TagsContainer = styled.div`
   flex-wrap: wrap;
   gap: 10px;
 `;
+
+const CollapseContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 76px;
+  margin-top: 20px;
+
+  > div {
+    flex: 1; /* Chaque collapse occupe le même espace */
+  }
+`;
+
+
 
 
 
@@ -81,42 +117,46 @@ export default function Logement() {
 
   return (
     <LogementContainer>
-       <Gallery images={logement?.pictures } />
-      <h1>{logement?.title }</h1>
-      <p>{logement?.location}</p>
-      <Host>
-      <div className="host-info">
-          <p>{firstName}<br />{lastName}</p>
-        </div>
-      <img src={logement?.host?.picture} alt={logement?.host?.name} />
-      </Host>
+       <Slider images={logement?.pictures } />
+       {/* Premier bloc : Titre, Location, Hôte */}
+       <HeaderContainer>
+        <TitleAndLocation>
+          <TitleLogement>{logement?.title}</TitleLogement>
+          <Location>{logement?.location}</Location>
+        </TitleAndLocation>
+        <Host>
+          <div className="host-info">
+            <p>
+              {firstName}
+              <br />
+              {lastName}
+            </p>
+          </div>
+          <img src={logement?.host?.picture} alt={logement?.host?.name} />
+        </Host>
+      </HeaderContainer>
+
+      {/* Deuxième bloc : Tags et Rating */}
       <TagsAndRatingContainer>
         <TagsContainer>
           {logement?.tags?.map((tag, index) => (
             <Tag key={index} title={tag} />
           ))}
         </TagsContainer>
-
-        {/* Composant Rating avec la note */}
         <Rating rating={logement?.rating || 0} />
       </TagsAndRatingContainer>
-      <Collapse
-      title="Description"
-      content={logement?.description || 'Aucune description disponible'}
-       /> 
-       <Collapse
-  title="Equipements"
-  content={
-    logement?.equipments?.length > 0
-      ? logement.equipments.map((item, index) => (
-          <span key={index}>
-            {item}
-            <br />
-          </span>
-        ))
-      : 'Aucun équipement disponible'
-  }
-/>
+
+      {/* Troisième bloc : Collapses */}
+      <CollapseContainer>
+        <Collapse
+          title="Description"
+          content={logement?.description || "Aucune description disponible"}
+        />
+        <Collapse
+          title="Equipements"
+          content={logement?.equipments || ["Aucun équipement disponible"]}
+        />
+      </CollapseContainer>
     </LogementContainer>
   );
 }

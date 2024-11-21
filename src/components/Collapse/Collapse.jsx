@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import colors from '../../utils/style/colors'
 import PropTypes from 'prop-types';
-import arrow from '../../assets/arrow_up.png'
+import arrow from '../../assets/arrow_up.png';
+import colors from '../../utils/style/colors';
 
 const Container = styled.div`
-  margin: 20px 150px auto;
+  margin: 20px 0px;
 `;
 
 const Header = styled.div`
@@ -25,50 +25,68 @@ const BannerTitle = styled.h2`
 `;
 
 const Arrow = styled.span`
- display: inline-flex; /* Adapte la taille du span à celle de l'image */
-  justify-content: center;  
+  display: inline-flex;
+  justify-content: center;
   img {
-  width: 50%; /* Réduction de la taille de l'image  */
-  transform: ${({ open }) => (open ? 'rotate(-180deg)' : 'rotate(0deg)')};
-  transition: transform 0.6s ease; /* Gestion du temps de l'animation de rotation  */
+    transform: ${({ open }) => (open ? 'rotate(-180deg)' : 'rotate(0deg)')};
+    transition: transform 0.6s ease;
   }
 `;
 
-
-
-const Content = styled.p`
-margin: 0;
-padding: 20px;
-font-size : 20px;
-background-color: ${colors.backgroundGrey};
+const Content = styled.div`
+  margin: 0;
+  padding: 20px;
+  font-size: 20px;
+  background-color: ${colors.backgroundGrey};
 `;
 
+const Paragraph = styled.p`
+  margin: 0;
+  line-height: 1.5;
+`;
 
+const List = styled.ul`
+  margin: 0;
+  padding-left: 0; /*Supression du padding hérité par le ul */
+  list-style-type: none; /* Retire les puces */
+`;
 
 export default function Collapse({ title, content }) {
-    //Constante pour définir l'état ouvert ou fermé
-    const [isOpen, setIsOpen] = useState(false);
-    //COnstante pour gérer létat ouvert quelque soit l'état précédent
-    const toggleOpen = () => {
-        setIsOpen((prev) => !prev);
-      };
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleOpen = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const renderContent = () => {
+    if (Array.isArray(content)) {
+      return (
+        // Gestion d'un retour des données en tableau
+        <List>
+          {content.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </List>
+      );
+    }
+    //Gestion d'un retour des données de texte simple
+    return <Paragraph>{content}</Paragraph>;
+  };
+
   return (
     <Container>
-    <Header onClick={toggleOpen}>
-      <BannerTitle> {title} </BannerTitle>
-      <Arrow open={isOpen}><img src={arrow} alt="Arrow" /></Arrow> {/* Flèche vers le haut */}
-    </Header>
-    {isOpen && (
-      <Content>
-        {content}
-      </Content>
-    )}
-  </Container>
-);
-};
+      <Header onClick={toggleOpen}>
+        <BannerTitle>{title}</BannerTitle>
+        <Arrow open={isOpen}>
+          <img src={arrow} alt="Arrow" />
+        </Arrow>
+      </Header>
+      {isOpen && <Content>{renderContent()}</Content>}
+    </Container>
+  );
+}
 
 Collapse.propTypes = {
-    title: PropTypes.string.isRequired,
-    content: PropTypes.node.isRequired,
-  };
-  
+  title: PropTypes.string.isRequired,
+  content: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
+};

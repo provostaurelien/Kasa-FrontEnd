@@ -10,7 +10,13 @@ const TagStyled = styled.div`
   border-radius: 25px;
   background-color: ${colors.primary};
   color: white;
-  padding: 5px 10px;            // Padding ajusté pour entourer le contenu
+  padding: 5px 10px;    // Padding ajusté pour entourer le contenu
+  font-size : 14px;
+  font-weight : bold;  
+  @media (max-width: 652px) {
+    font-size : 10px;
+    border-radius: 5px;
+  }      
 `
 
 

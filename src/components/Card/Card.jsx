@@ -8,8 +8,11 @@ const CardContainer = styled.div`
   height: 100%; 
   aspect-ratio: 1 / 1; /* Maintient un rapport 1:1 pour une forme carrée */
   border-radius: 25px;
-  overflow: hidden; /* Empêche tout dépassement de contenu */
+  overflow: hidden; /* Empêche tout dépassement de contenu pour le border */
   cursor: pointer; 
+  @media (max-width: 652px) {
+    aspect-ratio: 4/3;
+    }
 `;
 
 const CardImage = styled.img`

@@ -6,13 +6,21 @@ import styled from 'styled-components'
 
 const AProposContainer = styled.div`
   margin: 0px 100px 50px 100px;
-
+  @media (max-width: 652px) {
+      margin: 0px 4% 20px;
+    }
 `
 const CollapseContainer = styled.div`
   margin: 0 10%;
   & > div {
     margin-bottom: 40px; // Ajustez les marges entre les Collapse
   }
+  @media (max-width: 652px) {
+      margin: 0;
+  & > div {
+    margin-bottom: 20px; // Ajustez les marges entre les Collapse
+  }
+    }
 `;
 
 function APropos() {

@@ -5,6 +5,9 @@ const BannerContainer = styled.div`
   position: relative;
   padding: 50px 0px;
   border-radius: 25px;
+  @media (max-width: 652px) {
+      padding: 0px;
+    }
 `;
 
 const ImageWrapper = styled.div`
@@ -13,6 +16,8 @@ const ImageWrapper = styled.div`
   height: 223px; /* Hauteur fixe pour l'image */
   border-radius: 25px; 
   overflow: hidden; /* Assure que l'overlay et l'image respectent les bords arrondis */
+  @media (max-width: 652px) {
+    height: 111px;}
 `;
 
 const BannerImage = styled.img`
@@ -39,10 +44,18 @@ const BannerTitle = styled.h1`
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-size: 2.5rem;
+  font-size: 48px;
   text-align: center;
   margin: 0;
-  z-index: 2; /* Assure que le titre est toujours au-dessus de l'overlay */
+  z-index: 2;
+
+  @media (max-width: 652px) {
+    left: 35%;
+    font-size: 24px;
+    text-align: left;
+    white-space: normal;
+    width: 230px
+  }
 `;
 
 export default function Banner({ title, img, description }) {
@@ -52,7 +65,8 @@ export default function Banner({ title, img, description }) {
         <BannerImage src={img} alt={description} />
         <BannerOverlay title={title} />
       </ImageWrapper>
-      {title && <BannerTitle>{title}</BannerTitle>} {/* Affiche le titre uniquement si présent */}
+      {title && <BannerTitle>{title}</BannerTitle>}
+ {/* Affiche le titre uniquement si présent */}
     </BannerContainer>
   );
 }
@@ -60,5 +74,7 @@ export default function Banner({ title, img, description }) {
 Banner.propTypes = {
   img: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  title: PropTypes.string,
+  title: PropTypes.node,
 };
+
+

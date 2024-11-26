@@ -8,9 +8,13 @@ const HeaderContainer = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 100px;
+    padding: 20px 10%;
     .menu{
       display: flex;
+    }
+    @media (max-width: 652px) {
+      padding: 20px 4%;
+      a { text-transform: uppercase; /* transformation du texte en majuscule en vue mobile */}
     }
 `
 // Gestion du is active pour souligner le texte avec ajout $ pour éviter message d'erreur
@@ -35,7 +39,9 @@ function Header() {
 
   return (
     <HeaderContainer>
-      <Logo src={logo} alt="logo" />
+      <Link to="/">
+        <Logo src={logo} alt="logo" />
+      </Link>
       <nav className='menu'>
         <StyledLink to="/" $isActive={location.pathname === '/'}>
           Accueil

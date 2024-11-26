@@ -17,11 +17,18 @@ const Header = styled.div`
   border-radius: 8px;
   background-color: ${colors.primary};
   color: white;
+  @media (max-width: 652px) {
+    padding: 8px;
+    }
 `;
 
 const BannerTitle = styled.h2`
   margin: 0;
   color: white;
+  font-size: 18px;
+  @media (max-width: 652px) {
+    font-size: 13px;
+    }
 `;
 
 const Arrow = styled.span`
@@ -38,6 +45,9 @@ const Content = styled.div`
   padding: 20px;
   font-size: 20px;
   background-color: ${colors.backgroundGrey};
+  @media (max-width: 652px) {
+      font-size: 13px
+    }
 `;
 
 const Paragraph = styled.p`

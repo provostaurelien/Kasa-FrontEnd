@@ -5,7 +5,8 @@ import logo from '../../assets/logob&w.png'
 // Gestion du Style
 
 const FooterContainer = styled.footer`
-     display: flex;
+    flex-grow: 1; /* Permet au footer de prendre tout l'espace disponible */
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -15,13 +16,20 @@ const FooterContainer = styled.footer`
 const Logo = styled.img`
     height: 40px;
     padding: 40px;
-    margin-right: 20px;
+    @media (max-width: 652px) {
+    padding: 10px;
+  }
 `
 
 const P = styled.p`
-    color: white;
-    
-`
+  color: white;
+  text-align: center;
+  width: auto; 
+  
+  @media (max-width: 652px) {
+    font-size : 12px;
+  }
+`;
 
 
 // Composant Footer

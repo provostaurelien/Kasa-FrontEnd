@@ -8,7 +8,10 @@ import bannerImage from '../../assets/BannerHeader.png';
 
 
 const HomeContainer = styled.div`
-  margin: 0px 100px 50px 100px;
+  margin: 0px 10% 50px 10%;
+  @media (max-width: 652px) {
+      margin: 0px 4% 20px;
+    }
 `
 const CardsWrapper = styled.div`
   display: grid;
@@ -18,6 +21,13 @@ const CardsWrapper = styled.div`
   background-color: ${colors.backgroundGrey};
   border-radius: 25px;
   grid-auto-rows: 1fr; /* Uniformise les hauteurs des lignes */
+  @media (max-width: 652px) {
+    display: flex;
+    flex-direction: column; 
+    padding: 0px;
+    margin-top: 22px;
+    gap: 20px;
+  }
 `;
 
 function Home() {

@@ -21,9 +21,12 @@ const ImageContainer = styled.div`
 
 const SliderImage = styled.img`
   width: 100%;
-  height: 400px; /* Hauteur fixe pour toutes les images */
+  height: 415px; /* Hauteur fixe pour toutes les images */
   object-fit: cover; /* Remplit l'espace tout en respectant le ratio */
   border-radius: 10px;
+  @media (max-width: 652px) {
+     height : 255px;
+    }
 `;
 
 const Arrow = styled.img`
@@ -35,6 +38,9 @@ const Arrow = styled.img`
 
   // Positionnement des flèches
   ${({ direction }) => (direction === "left" ? "left: 10px;" : "right: 10px;")}
+  @media (max-width: 652px) {
+     height : 20%;
+    }
 `;
 
 const Counter = styled.div`
@@ -45,6 +51,9 @@ const Counter = styled.div`
   color: white;
   padding: 10px;
   font-size: 14px;
+  @media (max-width: 652px) {
+   display: none;  
+    }
 `;
 
 export default function Slider({ images }) {

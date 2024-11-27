@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 // Déplacement du globalStyle dans un fichier tiers sur warning Eslint
 

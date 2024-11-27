@@ -1,8 +1,8 @@
 import { useState } from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
 import arrowLeft from "../../assets/arrow_left.png";
 import arrowRight from "../../assets/arrow_right.png";
-import styled from "styled-components";
-import PropTypes from 'prop-types';
 
 // Définition du style
 const SliderContainer = styled.div`
@@ -25,8 +25,8 @@ const SliderImage = styled.img`
   object-fit: cover; /* Remplit l'espace tout en respectant le ratio */
   border-radius: 10px;
   @media (max-width: 652px) {
-     height : 255px;
-    }
+    height: 255px;
+  }
 `;
 
 const Arrow = styled.img`
@@ -39,25 +39,25 @@ const Arrow = styled.img`
   // Positionnement des flèches
   ${({ direction }) => (direction === "left" ? "left: 10px;" : "right: 10px;")}
   @media (max-width: 652px) {
-     height : 20%;
-    }
+    height: 20%;
+  }
 `;
 
 const Counter = styled.div`
   position: absolute;
-  bottom: 10px; 
+  bottom: 10px;
   right: 50%;
   transform: translateX(50%); // Permet le centrage
   color: white;
   padding: 10px;
   font-size: 14px;
   @media (max-width: 652px) {
-   display: none;  
-    }
+    display: none;
+  }
 `;
 
 export default function Slider({ images }) {
-    //Gestion de l'index pour l'affichage de la photo 
+  //Gestion de l'index pour l'affichage de la photo
   const [currentIndex, setCurrentIndex] = useState(0);
 
   if (!images || images.length === 0) {
@@ -108,7 +108,8 @@ export default function Slider({ images }) {
   );
 }
 
-Slider.propTypes = {
-    images: PropTypes.node,
-  };
+//Définition des vérifications des props
 
+Slider.propTypes = {
+  images: PropTypes.node,
+};

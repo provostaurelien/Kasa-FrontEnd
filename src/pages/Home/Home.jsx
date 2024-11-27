@@ -1,18 +1,17 @@
-import { useContext } from 'react';
-import PropertyContext from '../../Services/PropertyContext';
-import styled from 'styled-components'
-import colors from '../../utils/style/colors';
-import Banner from '../../components/Banner/Banner.jsx'
-import Card from '../../components/Card/Card.jsx';
-import bannerImage from '../../assets/BannerHeader.png';
-
+import { useContext } from "react";
+import PropertyContext from "../../Services/PropertyContext";
+import styled from "styled-components";
+import colors from "../../utils/style/colors";
+import Banner from "../../components/Banner/Banner.jsx";
+import Card from "../../components/Card/Card.jsx";
+import bannerImage from "../../assets/BannerHeader.png";
 
 const HomeContainer = styled.div`
   margin: 0px 10% 50px 10%;
   @media (max-width: 652px) {
-      margin: 0px 4% 20px;
-    }
-`
+    margin: 0px 4% 20px;
+  }
+`;
 const CardsWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -23,14 +22,14 @@ const CardsWrapper = styled.div`
   grid-auto-rows: 1fr; /* Uniformise les hauteurs des lignes */
   @media (max-width: 652px) {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     padding: 0px;
     margin-top: 22px;
     gap: 20px;
   }
 `;
 
-function Home() {
+export default function Home() {
   const { properties, loading, error } = useContext(PropertyContext);
 
   if (loading) return <p>Chargement...</p>;
@@ -38,24 +37,21 @@ function Home() {
 
   return (
     <HomeContainer>
-      <Banner 
+      <Banner
         title="Chez vous, partout et ailleurs"
         img={bannerImage}
         description="Bannière de la page d'accueil"
       />
       <CardsWrapper>
         {properties.map((property) => (
-          <Card 
-            key={property.id} 
-            id={property.id} 
-            title={property.title} 
-            cover={property.cover} 
+          <Card
+            key={property.id}
+            id={property.id}
+            title={property.title}
+            cover={property.cover}
           />
         ))}
       </CardsWrapper>
     </HomeContainer>
   );
 }
-
-
-export default Home;

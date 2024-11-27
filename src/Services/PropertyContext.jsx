@@ -1,7 +1,8 @@
 
 import { createContext, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { fetchProperties, fetchPropertyById } from './Api.js'; 
+import PropTypes from 'prop-types';
+
 
 const PropertyContext = createContext();
 
@@ -9,7 +10,7 @@ export const PropertyProvider = ({ children }) => {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+// Gestion de la récupération des données et de l'erreur si pas de données
   useEffect(() => {
     fetchProperties()
       .then((data) => {
@@ -21,7 +22,7 @@ export const PropertyProvider = ({ children }) => {
         setLoading(false);
       });
   }, []);
-
+// Gestion dans le même fichier de l'appel fait sur un id défini
   const getPropertyById = async (id) => {
     try {
       return await fetchPropertyById(id);
@@ -29,7 +30,7 @@ export const PropertyProvider = ({ children }) => {
       throw new Error(error.message);
     }
   };
-
+// Retour de l'api
   return (
     <PropertyContext.Provider value={{ properties, loading, error, getPropertyById }}>
       {children}

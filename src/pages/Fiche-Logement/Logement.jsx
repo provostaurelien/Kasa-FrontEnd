@@ -1,8 +1,8 @@
-import { useEffect, useState, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import colors from '../../utils/style/colors';
-import PropertyContext from '../../Services/PropertyContext';
+import { useEffect, useState, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import colors from "../../utils/style/colors";
+import PropertyContext from "../../Services/PropertyContext";
 import Slider from "../../components/Slider/Slider.jsx";
 import Collapse from "../../components/Collapse/Collapse.jsx";
 import Tag from "../../components/Tag/Tag.jsx";
@@ -15,24 +15,22 @@ const LogementContainer = styled.div`
   }
 `;
 
-
-
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr; 
+  grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
   // Gestion de l'organisation de la page via le grid templates areas pour vue mobile et desktop
   grid-template-areas:
     "title host"
     "tags rating"
     "collapses collapses";
-  
+
   @media (max-width: 652px) {
     grid-gap: 10px;
     grid-template-areas:
-    "title title"
-    "tags tags"
-    "rating host";
+      "title title"
+      "tags tags"
+      "rating host";
   }
 `;
 
@@ -61,15 +59,15 @@ const Location = styled.p`
   }
 `;
 
-
 const Host = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
   margin-top: 20px;
   grid-area: host;
-
-
+  @media (max-width: 652px) {
+    margin-top: 10px;
+  }
 
   .host-info {
     text-align: right;
@@ -81,8 +79,8 @@ const Host = styled.div`
     font-size: 18px;
     color: ${colors.primary};
     @media (max-width: 652px) {
-    font-size: 12px;
-  }
+      font-size: 12px;
+    }
   }
 
   img {
@@ -92,9 +90,8 @@ const Host = styled.div`
     @media (max-width: 652px) {
       width: 32px;
       height: 32px;
+    }
   }
-  }
-
 `;
 
 const TagsContainer = styled.div`
@@ -109,6 +106,10 @@ const RatingContainer = styled.div`
   justify-content: flex-end;
   align-items: center;
   grid-area: rating;
+  @media (max-width: 652px) {
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
 `;
 
 const CollapseContainer = styled.div`
@@ -133,7 +134,7 @@ export default function Logement() {
   const [logement, setLogement] = useState(null);
   const [loading, setLoading] = useState(true);
 
-
+  // Gestion de l'appel api
   useEffect(() => {
     setLoading(true);
     getPropertyById(idLogement)
@@ -143,20 +144,20 @@ export default function Logement() {
       })
       .catch(() => {
         setLoading(false);
-        navigate('/error');
+        navigate("/error");
       });
   }, [idLogement, getPropertyById, navigate]);
 
   if (loading) return <p>Chargement...</p>;
-
-  const [firstName, lastName] = logement?.host?.name?.split(' ') || [];
+  // Gestionde la séparation nom et prénom de l'hôte
+  const [firstName, lastName] = logement?.host?.name?.split(" ") || [];
 
   return (
     <LogementContainer>
       {/* Slider */}
       <Slider images={logement?.pictures} style={{ order: 1 }} />
 
-      {/* Grille des éléments */}
+      {/* Grille des éléments (l'ordre est défini élément par élément via le grid-area) */}
       <Container>
         <TitleAndLocationContainer>
           <TitleLogement>{logement?.title}</TitleLogement>

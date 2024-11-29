@@ -4,8 +4,8 @@ import logo from "../../assets/logob&w.png";
 // Gestion du Style
 
 const FooterContainer = styled.footer`
-  flex-grow: 1; /* Permet au footer de prendre tout l'espace disponible */
   display: flex;
+  flex-grow: 1; /* Permet au footer de prendre tout l'espace disponible */
   flex-direction: column;
   align-items: center;
   justify-content: center;

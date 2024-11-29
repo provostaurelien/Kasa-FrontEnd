@@ -1,7 +1,10 @@
+import React from "react";
 import Collapse from "../src/components/Collapse/Collapse.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { describe, test, expect, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
+import PropertyContext, { PropertyProvider } from '../src/Services/PropertyContext.jsx';
+
 
 // Définition globale de l'appel de la console d'erreur
 let consoleErrorMock;
@@ -136,5 +139,46 @@ describe("Tests de validation des propTypes", () => {
     );
 
     expect(containsDescriptionError).toBe(true);
+  });
+});
+
+// simuliation via Mock du comportement de l'API
+import * as Api from "../src/Services/Api";
+
+vi.mock("../src/Services/Api", () => ({
+  fetchProperties: vi.fn(),
+}));
+
+describe("Tests des états en cas d'erreur API", () => {
+  test("Gère l'état error et loading lors d'une erreur API", async () => {
+    // Simulation d'une erreur lors de l'appel API
+    Api.fetchProperties.mockRejectedValueOnce(new Error("Erreur serveur"));
+
+    //Observation du comportement du contexte
+    const MockConsumer = () => {
+      const { error, loading } = React.useContext(PropertyContext);
+
+      if (loading) return <div>Chargement...</div>;
+      if (error) return <div>Erreur: {error}</div>;
+      return <div>Aucune erreur</div>;
+    };
+
+    render(
+      <PropertyProvider>
+        <MockConsumer />
+      </PropertyProvider>
+    );
+
+    // Vérifie que l'état initial est "loading"
+    expect(screen.getByText(/chargement.../i)).toBeInTheDocument();
+
+    // Attente de la mise à jour après l'erreur API
+    await waitFor(() => {
+      // Vérifie que l'état "error" est correctement mis à jour
+      expect(screen.getByText(/erreur: erreur serveur/i)).toBeInTheDocument();
+
+      // Vérifie que "loading" est passé à "false" après l'erreur
+      expect(screen.queryByText(/chargement.../i)).toBeNull();
+    });
   });
 });

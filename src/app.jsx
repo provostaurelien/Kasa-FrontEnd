@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import NotFound from "./components/Error/Error.jsx";
+import NotFound from "./pages/Error/Error.jsx";
 import APropos from "./pages/A-Propos/A-Propos.jsx";
 import Logement from "./pages/Fiche-Logement/Logement.jsx";
 import Home from "./pages/Home/Home.jsx";

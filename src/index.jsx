@@ -28,7 +28,6 @@ root.render(
   <React.StrictMode>
     <Router>
       <PropertyProvider>
-        {" "}
         {/* définition du contexte de l'appel api */}
         <GlobalStyle />
         <AppContainer>

@@ -149,7 +149,7 @@ export default function Logement() {
   }, [idLogement, getPropertyById, navigate]);
 
   if (loading) return <p>Chargement...</p>;
-  // Gestionde la séparation nom et prénom de l'hôte
+  // Gestion de la séparation nom et prénom de l'hôte
   const [firstName, lastName] = logement?.host?.name?.split(" ") || [];
 
   return (

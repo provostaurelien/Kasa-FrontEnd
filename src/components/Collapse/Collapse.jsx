@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import arrow from "../../assets/arrow_up.png";
@@ -39,8 +39,14 @@ const Arrow = styled.span`
       open
         ? "rotate(-180deg)"
         : "rotate(0deg)"}; /* Gestion de la rotation de la flèche */
-    transition: transform 0.6s ease;
+    transition: transform 2s ease;
   }
+`;
+
+const ContentWrapper = styled.div`
+  overflow: hidden; /* Cache les parties du texte hors du conteneur */
+  max-height: ${({ maxHeight }) => (maxHeight ? `${maxHeight}px` : "0px")}; // Impossible d'utiliser Height auto car pas d'animaton à la fermeture, entraine utilisation use effect et use ref 
+  transition: max-height 1s ease; /* Transition fluide de la hauteur */
 `;
 
 const Content = styled.div`
@@ -48,6 +54,10 @@ const Content = styled.div`
   padding: 20px;
   font-size: 20px;
   background-color: ${colors.backgroundGrey};
+  transform: ${({ open }) =>
+    open ? "translateY(0)" : "translateY(-100%)"}; /* Gère le déplacement vers le haut ou le bas */
+  transition: transform 1s ease; /* Transition fluide pour le défilement */
+  position: relative;
   @media (max-width: 652px) {
     font-size: 13px;
   }
@@ -65,17 +75,28 @@ const List = styled.ul`
 `;
 
 export default function Collapse({ title, content }) {
-  // Définition d'un use state pour l'ouverture du collapse et la direction de la flèche, fermé apar défaut
   const [isOpen, setIsOpen] = useState(false);
+  const [maxHeight, setMaxHeight] = useState(0); // Hauteur animée
+  const contentRef = useRef(null); // Permet de mesurer la hauteur du contenu
 
   const toggleOpen = () => {
     setIsOpen((prev) => !prev);
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      // Mesure de la hauteur
+      const contentHeight = contentRef.current.scrollHeight;
+      setMaxHeight(contentHeight);
+    } else {
+      // Réduction lors de la fermeture fermeture
+      setMaxHeight(0);
+    }
+  }, [isOpen]);  // Choix du use effect par rapport au chargement via api et permet de synchronise l'effet avec le chargement du DOM
+
   const renderContent = () => {
     if (Array.isArray(content)) {
       return (
-        // Gestion d'un retour des données API en tableau
         <List>
           {content.map((item, index) => (
             <li key={index}>{item}</li>
@@ -83,7 +104,6 @@ export default function Collapse({ title, content }) {
         </List>
       );
     }
-    //Gestion d'un retour des données de texte simple
     return <Paragraph>{content}</Paragraph>;
   };
 
@@ -95,7 +115,11 @@ export default function Collapse({ title, content }) {
           <img src={arrow} alt="Arrow" />
         </Arrow>
       </Header>
-      {isOpen && <Content>{renderContent()}</Content>}
+      <ContentWrapper maxHeight={maxHeight}>
+        <Content ref={contentRef} open={isOpen}>
+          {renderContent()}
+        </Content>
+      </ContentWrapper>
     </Container>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import Collapse from "../src/components/Collapse/Collapse.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { describe, test, expect, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import PropertyContext, { PropertyProvider } from '../src/Services/PropertyContext.jsx';
 
 
@@ -41,19 +41,15 @@ describe("Passer des données valides", () => {
 });
 
 describe("Tests du comportement de Collapse", () => {
+
   test("Le contenu n'est pas affiché par défaut", () => {
-    const title = "Mon Titre de Test";
-    const content = "Mon contenu de test";
-
-    render(
-      <BrowserRouter>
-        <Collapse title={title} content={content} />
-      </BrowserRouter>
-    );
-
-    // Vérifie que le contenu n'est pas dans le document initialement
-    expect(screen.queryByText(content)).toBeNull();
+    render(<Collapse title="Mon Titre" content="Mon contenu de test" />);
+  
+    // Vérifiez que le contenu a l'état fermé
+    const contentWrapper = screen.getByTestId("collapse-content-closed");
+    expect(contentWrapper).toBeInTheDocument();
   });
+  
 
   test("Le contenu est affiché après un clic sur le Header", async () => {
     const title = "Mon Titre de Test";
@@ -76,22 +72,22 @@ describe("Tests du comportement de Collapse", () => {
   });
 
   test("Le contenu est caché après un double clic sur le Header", () => {
-    const title = "Mon Titre de Test";
+    const title = "Mon Titre";
     const content = "Mon contenu de test";
-
-    render(
-      <BrowserRouter>
-        <Collapse title={title} content={content} />
-      </BrowserRouter>
-    );
-
-    // Simule deux clics sur le Header
+  
+    // Rendre le composant
+    render(<Collapse title={title} content={content} />);
+  
+    // Sélectionner le Header
     const header = screen.getByText(title);
-    header.click();
-    header.click();
-
-    // Vérifie que le contenu n'est plus affiché
-    expect(screen.queryByText(content)).toBeNull();
+  
+    // Simuler deux clics consécutifs sur le Header
+    fireEvent.click(header); // Premier clic pour ouvrir
+    fireEvent.click(header); // Deuxième clic pour fermer
+  
+    // Vérifier que le contenu est masqué après le deuxième clic
+    const contentWrapper = screen.getByTestId("collapse-content-closed");
+    expect(contentWrapper).toBeInTheDocument();
   });
 });
 

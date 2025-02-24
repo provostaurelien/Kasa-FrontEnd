@@ -43,10 +43,11 @@ const Arrow = styled.span`
   }
 `;
 
-const ContentWrapper = styled.div`
-  overflow: hidden; /* Cache les parties du texte hors du conteneur */
-  max-height: ${({ maxHeight }) => (maxHeight ? `${maxHeight}px` : "0px")}; // Impossible d'utiliser Height auto car pas d'animaton à la fermeture, entraine utilisation use effect et use ref 
-  transition: max-height 1s ease; /* Transition fluide de la hauteur */
+const ContentWrapper = styled.div.attrs(({ maxheight }) => ({
+  style: { maxHeight: maxheight ? `${maxheight}px` : "0px" },
+}))`
+  overflow: hidden;
+  transition: max-height 1s ease;
 `;
 
 const Content = styled.div`
@@ -55,7 +56,9 @@ const Content = styled.div`
   font-size: 20px;
   background-color: ${colors.backgroundGrey};
   transform: ${({ open }) =>
-    open ? "translateY(0)" : "translateY(-100%)"}; /* Gère le déplacement vers le haut ou le bas */
+    open
+      ? "translateY(0)"
+      : "translateY(-100%)"}; /* Gère le déplacement vers le haut ou le bas */
   transition: transform 1s ease; /* Transition fluide pour le défilement */
   position: relative;
   @media (max-width: 652px) {
@@ -76,7 +79,7 @@ const List = styled.ul`
 
 export default function Collapse({ title, content }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [maxHeight, setMaxHeight] = useState(0); // Hauteur animée
+  const [maxheight, setmaxheight] = useState(0); // Hauteur animée
   const contentRef = useRef(null); // Permet de mesurer la hauteur du contenu
 
   const toggleOpen = () => {
@@ -87,12 +90,12 @@ export default function Collapse({ title, content }) {
     if (isOpen) {
       // Mesure de la hauteur
       const contentHeight = contentRef.current.scrollHeight;
-      setMaxHeight(contentHeight);
+      setmaxheight(contentHeight);
     } else {
       // Réduction lors de la fermeture fermeture
-      setMaxHeight(0);
+      setmaxheight(0);
     }
-  }, [isOpen]);  // Choix du use effect par rapport au chargement via api et permet de synchronise l'effet avec le chargement du DOM
+  }, [isOpen]); // Choix du use effect par rapport au chargement via api et permet de synchronise l'effet avec le chargement du DOM
 
   const renderContent = () => {
     if (Array.isArray(content)) {
@@ -115,7 +118,10 @@ export default function Collapse({ title, content }) {
           <img src={arrow} alt="Arrow" />
         </Arrow>
       </Header>
-      <ContentWrapper maxHeight={maxHeight}>
+      <ContentWrapper
+        maxheight={maxheight}
+        data-testid={`collapse-content-${isOpen ? "open" : "closed"}`}
+      >
         <Content ref={contentRef} open={isOpen}>
           {renderContent()}
         </Content>
